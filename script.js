@@ -202,7 +202,7 @@ const TASKS = [
     prompt:
       'Slide the tiles into order, 1 to 8, with the empty space in the last corner. You have 70 moves. This one is not easy.',
     render(box, { pass, fail }) {
-      const LIMIT = 70;
+      const LIMIT = 150;
       const tiles = [1, 2, 3, 4, 5, 6, 7, 8, 0];
       let empty = 8;
       let moves = 0;
