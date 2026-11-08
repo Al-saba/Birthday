@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Celebration</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="confetti"></canvas>
+
+<main class="card">
+  <div class="progress"><span id="progressBar"></span></div>
+
+  <section class="screen active" id="screen0">
+    <div class="icon">🎂</div>
+    <h1>Birthday Celebration</h1>
+    <p>Welcome to the birthday celebration.</p>
+    <p>Complete the tasks in sequence to unlock the cake-cutting stage.</p>
+    <button onclick="goTo(1)">Start</button>
+  </section>
+
+  <section class="screen" id="screen1">
+    <div class="icon">🧩</div>
+    <h2>Task 01 — Riddle</h2>
+    <p>Which one is commonly associated with learning?</p>
+    <div class="options">
+      <button onclick="wrong('msg1')">🚗 Car</button>
+      <button onclick="correct(2)">📚 Knowledge</button>
+      <button onclick="wrong('msg1')">🌳 Tree</button>
+      <button onclick="wrong('msg1')">⚽ Football</button>
+    </div>
+    <p class="message" id="msg1"></p>
+  </section>
+
+  <section class="screen" id="screen2">
+    <div class="icon">🔎</div>
+    <h2>Task 02 — Identify</h2>
+    <p>Which item is directly related to a birthday celebration?</p>
+    <div class="options">
+      <button onclick="wrong('msg2')">🌧️ Rain</button>
+      <button onclick="wrong('msg2')">🚲 Bicycle</button>
+      <button onclick="correct(3)">🎂 Cake</button>
+      <button onclick="wrong('msg2')">📘 Notebook</button>
+    </div>
+    <p class="message" id="msg2"></p>
+  </section>
+
+  <section class="screen" id="screen3">
+    <div class="icon">🔐</div>
+    <h2>Task 03 — Final Code</h2>
+    <p>Select the correct birthday greeting.</p>
+    <div class="options">
+      <button onclick="wrong('msg3')">Good Morning</button>
+      <button onclick="wrong('msg3')">Good Night</button>
+      <button onclick="correct(4)">Happy Birthday</button>
+      <button onclick="wrong('msg3')">See You</button>
+    </div>
+    <p class="message" id="msg3"></p>
+  </section>
+
+  <section class="screen" id="screen4">
+    <div class="icon">🔓</div>
+    <h2>All Tasks Completed</h2>
+    <p>All required tasks have been completed successfully.</p>
+    <p>The cake-cutting stage is now available.</p>
+    <button onclick="unlockCake()">Unlock Cake Cutting</button>
+  </section>
+
+  <section class="screen" id="screen5">
+    <h2>🎂 Birthday Cake</h2>
+    <p id="cakeText">Click the knife to cut the cake.</p>
+
+    <div class="cakeArea">
+      <button class="knife" id="knife" onclick="cutCake()" aria-label="Cut cake">🔪</button>
+
+      <div class="cake">
+        <div class="candle"><span>🔥</span></div>
+        <div class="cream"></div>
+        <div class="cakeLayer topLayer"></div>
+        <div class="cakeLayer bottomLayer"></div>
+      </div>
+
+      <div class="cutLine" id="cutLine"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen6">
+    <div class="icon">🎉</div>
+    <h1>Happy Birthday!</h1>
+    <p class="formalMessage">
+      আপনার আগামী দিনগুলো সাফল্য, সুস্বাস্থ্য ও আনন্দে পরিপূর্ণ হোক।
+    </p>
+    <p>এই বিশেষ দিনটি আনন্দময় ও স্মরণীয় হোক।</p>
+    <button onclick="location.reload()">Restart</button>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
