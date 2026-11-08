@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise 🎂</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; overflow:hidden;
+  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+  background:linear-gradient(135deg,#ffe1ec,#e6ddff,#d9f5ff);
+  color:#3b2745; display:flex; align-items:center; justify-content:center;
+}
+.card{
+  width:min(92vw,720px); min-height:650px; padding:28px 24px;
+  background:rgba(255,255,255,.72); backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.8); border-radius:30px;
+  box-shadow:0 20px 60px rgba(89,56,120,.18);
+  text-align:center; position:relative; overflow:hidden;
+}
+h1{font-size:clamp(28px,6vw,48px); margin:10px 0 6px}
+h2{margin:10px 0;font-size:28px}
+p{font-size:17px;line-height:1.5}
+.screen{display:none;animation:fade .45s ease}.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+button{
+  border:0;border-radius:999px;padding:13px 22px;margin:8px;
+  background:#7c4dff;color:white;font-weight:700;font-size:16px;
+  cursor:pointer;box-shadow:0 8px 20px rgba(124,77,255,.25);
+}
+button:hover{transform:translateY(-2px)}
+.small{font-size:13px;opacity:.7}
+.heart{font-size:70px;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:430px;margin:20px auto}
+.options button{margin:0;background:#fff;color:#5b3d70;border:2px solid #eadfff;box-shadow:none}
+.options button:hover{background:#f5efff}
+.lock{font-size:54px}
+.progress{height:8px;background:#eee;border-radius:20px;margin:15px auto 25px;max-width:430px;overflow:hidden}
+.progress i{display:block;height:100%;background:#7c4dff;width:0%;transition:.4s}
+.memory{
+  width:120px;height:120px;border-radius:20px;border:3px solid #fff;
+  background:#ffd6e7;display:inline-flex;align-items:center;justify-content:center;
+  font-size:50px;margin:8px;cursor:pointer;
+}
+.memory.open{background:white}
+#cakeArea{position:relative;width:min(90vw,480px);height:300px;margin:15px auto}
+.cake{position:absolute;left:50%;top:90px;transform:translateX(-50%);width:250px;height:120px}
+.layer{position:absolute;left:0;width:100%;height:50px;border-radius:14px;background:#ff9fc4;border:3px solid #fff}
+.layer.one{bottom:0}.layer.two{bottom:42px;width:90%;left:5%;background:#ffb6d2}
+.cream{position:absolute;bottom:86px;left:5%;width:90%;height:24px;background:#fff;border-radius:20px}
+.candle{position:absolute;bottom:107px;left:50%;width:16px;height:55px;background:#8d6cff;transform:translateX(-50%);border-radius:6px}
+.flame{position:absolute;top:-25px;left:50%;transform:translateX(-50%);font-size:28px}
+.knife{
+  position:absolute;left:50%;top:30px;font-size:54px;cursor:grab;
+  transform:translateX(-50%) rotate(-25deg);user-select:none;
+  display:none;z-index:5;transition:.15s;
+}
+.knife.unlocked{display:block;animation:knifePop .6s ease}
+@keyframes knifePop{from{transform:translateX(-50%) scale(0)}to{transform:translateX(-50%) rotate(-25deg) scale(1)}}
+.cutline{position:absolute;display:none;left:50%;top:90px;width:5px;height:120px;background:#fff;z-index:4;box-shadow:0 0 10px #fff}
+.finalMsg{font-size:24px;font-weight:800;color:#7c4dff}
+#confetti{position:fixed;inset:0;pointer-events:none}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<main class="card">
+
+<section class="screen active" id="s0">
+  <div class="heart">💖</div>
+  <h1>Hey, Birthday Girl! 🎂</h1>
+  <p>আজকের surpriseটা একটু আলাদা।<br>কিছু ছোট্ট puzzle solve করে শেষে তোমাকেই cake কাটতে হবে! 😄</p>
+  <button onclick="go(1)">Start the Surprise ✨</button>
+</section>
+
+<section class="screen" id="s1">
+  <div class="lock">🧩</div><h2>Task 1 — Guess the Word</h2>
+  <p>আমি যতই ভাগ করি, ততই বাড়ে। আমি কী?</p>
+  <div class="options">
+    <button onclick="wrong()">কেক 🍰</button>
+    <button onclick="wrong()">সময় ⏰</button>
+    <button onclick="correct(2)">ভালোবাসা ❤️</button>
+    <button onclick="wrong()">বই 📖</button>
+  </div>
+  <p class="small" id="hint1"></p>
+</section>
+
+<section class="screen" id="s2">
+  <div class="lock">🧠</div><h2>Task 2 — Find the Special One</h2>
+  <p>নিচের চারটার মধ্যে কোন emoji birthday-এর সবচেয়ে কাছের?</p>
+  <div class="options">
+    <button onclick="wrong2()">🌧️ Rain</button>
+    <button onclick="correct(3)">🎂 Cake</button>
+    <button onclick="wrong2()">🚗 Car</button>
+    <button onclick="wrong2()">🌳 Tree</button>
+  </div>
+  <p class="small" id="hint2"></p>
+</section>
+
+<section class="screen" id="s3">
+  <div class="lock">🔐</div><h2>Task 3 — Final Password</h2>
+  <p>Birthday-এর magic password কোনটা?</p>
+  <div class="options">
+    <button onclick="wrong3()">Good Night</button>
+    <button onclick="wrong3()">See You</button>
+    <button onclick="correct(4)">Happy Birthday 🎉</button>
+    <button onclick="wrong3()">Good Luck</button>
+  </div>
+  <p class="small" id="hint3"></p>
+</section>
+
+<section class="screen" id="s4">
+  <div class="lock">🔓</div><h2>All Tasks Complete!</h2>
+  <p>Excellent! 🎉<br>তুমি cake কাটার permission পেয়েছো।</p>
+  <button onclick="unlockCake()">Unlock the Cake 🔪</button>
+</section>
+
+<section class="screen" id="s5">
+  <h2>🎂 Your Birthday Cake</h2>
+  <p id="cakeInstruction">Knife-টা cake-এর উপর drag/click করো!</p>
+  <div id="cakeArea">
+    <div class="knife" id="knife" onclick="cutCake()">🔪</div>
+    <div class="cake">
+      <div class="candle"><div class="flame">🔥</div></div>
+      <div class="cream"></div>
+      <div class="layer two"></div>
+      <div class="layer one"></div>
+    </div>
+    <div class="cutline" id="cutline"></div>
+  </div>
+</section>
+
+<section class="screen" id="s6">
+  <div class="heart">🎉</div>
+  <h1>Happy Birthday! 🥳</h1>
+  <p class="finalMsg">তোমার প্রতিটা দিন হাসি, আনন্দ আর সুন্দর মুহূর্তে ভরে উঠুক। 💖</p>
+  <p>আজকের দিনটা শুধু তোমার! 🎂✨</p>
+  <button onclick="location.reload()">Replay 🔄</button>
+</section>
+
+<div class="progress"><i id="bar"></i></div>
+</main>
+
+<script>
+let current=0;
+function go(n){
+  document.getElementById('s'+current).classList.remove('active');
+  current=n; document.getElementById('s'+current).classList.add('active');
+  document.getElementById('bar').style.width=(Math.min(current,5)/5*100)+'%';
+}
+function correct(n){go(n)}
+function wrong(){
+  document.getElementById('hint1').textContent='😊 একটু ভাবো... ভালোবাসা যত ভাগ করো, ততই বাড়ে!';
+}
+function wrong2(){
+  document.getElementById('hint2').textContent='😄 Birthday-এর সাথে আরেকবার মিলিয়ে দেখো!';
+}
+function wrong3(){
+  document.getElementById('hint3').textContent='😉 Magic password-টা birthday related!';
+}
+function unlockCake(){
+  go(5);
+  setTimeout(()=>document.getElementById('knife').classList.add('unlocked'),300);
+}
+function cutCake(){
+  document.getElementById('cutline').style.display='block';
+  document.getElementById('cakeInstruction').textContent='🎉 Cake কাটার mission complete!';
+  setTimeout(()=>{go(6); launchConfetti()},700);
+}
+function launchConfetti(){
+  const c=document.getElementById('confetti'),x=c.getContext('2d');
+  c.width=innerWidth;c.height=innerHeight;
+  let a=Array.from({length:180},()=>({
+    x:Math.random()*c.width,y:-Math.random()*c.height,
+    r:Math.random()*5+3,vy:Math.random()*3+2,
+    vx:(Math.random()-.5)*3
+  }));
+  let t=0;
+  function draw(){
+    x.clearRect(0,0,c.width,c.height);
+    a.forEach(p=>{
+      p.y+=p.vy;p.x+=p.vx;
+      x.fillStyle=`hsl(${Math.random()*360},90%,65%)`;
+      x.fillRect(p.x,p.y,p.r,p.r);
+    });
+    if(t++<220)requestAnimationFrame(draw);
+  }
+  draw();
+}
+</script>
+</body>
+</html>
