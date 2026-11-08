@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A Birthday in the Garden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Lora:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="leaves" aria-hidden="true"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <header class="hero">
+    <p class="eyebrow">A Birthday Invitation</p>
+    <h1>Happy Birthday, <span id="name">Dear Sister</span></h1>
+    <p class="lead">
+      In honour of your special day, the garden has prepared five small tasks for you.
+      Complete them all, without a single mistake, and the knife shall be unlocked
+      so that the cake may be cut.
+    </p>
+    <div class="rule" aria-hidden="true"><span></span><i></i><span></span></div>
+  </header>
+
+  <main class="grid">
+    <!-- TASKS -->
+    <section class="card tasks" id="tasksCard" aria-live="polite">
+      <div class="progress" id="progress" aria-label="Progress"></div>
+      <p class="step" id="stepLabel">Task 1 of 4</p>
+      <h2 id="taskTitle"></h2>
+      <p class="prompt" id="taskPrompt"></p>
+      <div id="taskBody"></div>
+      <p class="feedback" id="feedback" role="status"></p>
+    </section>
+
+    <!-- CAKE -->
+    <section class="card cakeCard">
+      <div class="stage" id="stage">
+        <svg class="cake" viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A birthday cake decorated with flowers">
+          <defs>
+            <linearGradient id="gSponge" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#efdcae" />
+              <stop offset="1" stop-color="#e2c488" />
+            </linearGradient>
+            <linearGradient id="gFrost" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#b3d1a3" />
+              <stop offset="1" stop-color="#8fb67f" />
+            </linearGradient>
+            <clipPath id="clipLeft"><rect x="0" y="0" width="215" height="280" /></clipPath>
+            <clipPath id="clipRight"><rect x="215" y="0" width="85" height="280" /></clipPath>
+
+            <g id="cakeShape">
+              <!-- bottom tier -->
+              <rect x="30" y="165" width="240" height="75" rx="9" fill="url(#gSponge)" />
+              <rect x="30" y="188" width="240" height="7" fill="#fffaf0" />
+              <rect x="30" y="212" width="240" height="7" fill="#fffaf0" />
+              <path d="M30 165 H270 V176 q-10 14 -22 4 q-10 10 -22 2 q-10 14 -22 2 q-10 10 -22 0 q-10 14 -22 2 q-10 10 -22 0 q-10 14 -22 2 q-10 10 -22 0 q-10 12 -22 2 q-10 8 -22 -2 Z" fill="url(#gFrost)" />
+              <!-- top tier -->
+              <rect x="70" y="105" width="160" height="60" rx="8" fill="url(#gSponge)" />
+              <rect x="70" y="128" width="160" height="6" fill="#fffaf0" />
+              <rect x="70" y="146" width="160" height="6" fill="#fffaf0" />
+              <path d="M70 105 H230 V115 q-9 13 -20 4 q-9 9 -20 2 q-9 13 -20 2 q-9 9 -20 0 q-9 13 -20 2 q-9 9 -20 0 q-9 11 -20 2 Z" fill="url(#gFrost)" />
+              <!-- top flowers & leaves -->
+              <g>
+                <ellipse cx="82" cy="102" rx="9" ry="4" fill="#6f9a62" transform="rotate(-25 82 102)" />
+                <ellipse cx="218" cy="102" rx="9" ry="4" fill="#6f9a62" transform="rotate(25 218 102)" />
+                <g transform="translate(96 100)"><circle r="6" fill="#f4b6c2" /><circle r="2.4" fill="#f3d36b" /></g>
+                <g transform="translate(205 100)"><circle r="6" fill="#f6e08a" /><circle r="2.4" fill="#d78f3b" /></g>
+              </g>
+              <!-- tier border flowers -->
+              <g>
+                <g transform="translate(52 166)"><circle r="6" fill="#f4b6c2" /><circle r="2.4" fill="#f3d36b" /></g>
+                <g transform="translate(92 168)"><circle r="5" fill="#f6e08a" /><circle r="2" fill="#d78f3b" /></g>
+                <g transform="translate(236 167)"><circle r="6" fill="#f4b6c2" /><circle r="2.4" fill="#f3d36b" /></g>
+                <g transform="translate(252 170)"><circle r="4.5" fill="#fff" /><circle r="1.8" fill="#f3d36b" /></g>
+              </g>
+              <!-- candles -->
+              <g>
+                <rect x="112" y="76" width="6" height="30" rx="2" fill="#fffaf0" />
+                <rect x="112" y="84" width="6" height="3" fill="#d9a441" />
+                <rect x="112" y="94" width="6" height="3" fill="#d9a441" />
+                <rect x="147" y="72" width="6" height="34" rx="2" fill="#fffaf0" />
+                <rect x="147" y="80" width="6" height="3" fill="#d9a441" />
+                <rect x="147" y="90" width="6" height="3" fill="#d9a441" />
+                <rect x="182" y="76" width="6" height="30" rx="2" fill="#fffaf0" />
+                <rect x="182" y="84" width="6" height="3" fill="#d9a441" />
+                <rect x="182" y="94" width="6" height="3" fill="#d9a441" />
+              </g>
+            </g>
+          </defs>
+
+          <!-- plate -->
+          <ellipse cx="150" cy="246" rx="142" ry="15" fill="#f1ecdc" stroke="#cfc6ad" stroke-width="1.5" />
+          <ellipse cx="150" cy="243" rx="118" ry="9" fill="#e8e1cb" opacity=".6" />
+
+          <!-- left (main) part -->
+          <g id="cakeLeft" clip-path="url(#clipLeft)"><use href="#cakeShape" /></g>
+          <!-- right slice -->
+          <g id="cakeSlice" clip-path="url(#clipRight)"><use href="#cakeShape" /></g>
+
+          <!-- flames (outside clipped groups, stay with cake) -->
+          <g class="flames">
+            <path class="flame" d="M115 74 q-5 -9 0 -17 q5 8 0 17 Z" fill="#f6a93b" />
+            <path class="flame f2" d="M150 70 q-5 -9 0 -17 q5 8 0 17 Z" fill="#f6a93b" />
+            <path class="flame f3" d="M185 74 q-5 -9 0 -17 q5 8 0 17 Z" fill="#f6a93b" />
+          </g>
+        </svg>
+
+        <div class="guide" id="guide" aria-hidden="true"></div>
+
+        <div class="knife locked" id="knife" role="button" tabindex="0" aria-label="Knife (locked)">
+          <svg viewBox="0 0 40 170" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gBlade" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#9aa3a8" />
+                <stop offset=".45" stop-color="#f2f5f6" />
+                <stop offset="1" stop-color="#b9c1c5" />
+              </linearGradient>
+            </defs>
+            <rect x="12" y="2" width="16" height="48" rx="6" fill="#6b4a2e" />
+            <rect x="12" y="14" width="16" height="3" fill="#a77c4f" />
+            <rect x="12" y="34" width="16" height="3" fill="#a77c4f" />
+            <rect x="9" y="50" width="22" height="5" rx="2" fill="#8a8f93" />
+            <path d="M11 55 H31 V150 Q31 162 20 168 Q11 160 11 150 Z" fill="url(#gBlade)" stroke="#8e979c" stroke-width="1" />
+          </svg>
+          <span class="lock" id="lock" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22"><path fill="#fffaf0" d="M17 9h-1V7a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2Zm-7-2a2 2 0 0 1 4 0v2h-4V7Z"/></svg>
+          </span>
+        </div>
+      </div>
+      <p class="hint" id="hint">The knife is locked. Complete all five tasks to unlock it.</p>
+    </section>
+  </main>
+
+  <!-- FINAL WISH -->
+  <section class="wish" id="wish" hidden>
+    <div class="card wishCard">
+      <p class="eyebrow">With Warmest Wishes</p>
+      <h2 id="wishTitle">Happy Birthday</h2>
+      <p id="wishText"></p>
+      <p class="sign" id="wishSign"></p>
+      <button class="ghost" id="again" type="button">Play again</button>
+    </div>
+  </section>
+
+  <footer class="foot">Made with care, in a quiet garden.</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
